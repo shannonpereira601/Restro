@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/n1"
+
+            android:title="Hotels" />
+        <item
+            android:id="@+id/n2"
+
+            android:title="Feedback" />
+        <item
+            android:id="@+id/n3"
+            android:icon="@drawable/map"
+            android:title="Maps" />
+        <item
+            android:id="@+id/n4"
+            android:icon="@drawable/logout"
+            android:title="Logout"/>
+
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/contactus"
+                android:icon="@drawable/call"
+                android:title="Contact Us" />
+
+    </menu>
+    </item>
+
+</menu>
