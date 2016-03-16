@@ -1,8 +1,134 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.admin.restro.MapsActivity" />
+    tools:context="com.example.admin.restro.MapsActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+ <FrameLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+         android:id="@+id/map"
+         android:name="com.google.android.gms.maps.SupportMapFragment"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         />
+<LinearLayout
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#77ffffff"
+    android:id="@+id/llmap"
+    android:paddingTop="5dp">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+       android:layout_weight="1"
+        android:id="@+id/mapedittext"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:textSize="15dp"
+        android:hint="Please Search an Address"
+        />
+
+        <Button
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_weight="3"
+        android:id="@+id/mapbutton"
+        android:textSize="11sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+        android:background="@drawable/corner"
+        android:text="Search"
+        android:textColor="#fff"
+        android:onClick="onSearch"
+        />
+
+</LinearLayout>
+
+ </FrameLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:scaleType="fitEnd"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="11dp"
+        android:src="@drawable/up"
+        android:layout_alignParentRight="true"
+        android:onClick="zoom"
+        android:id="@+id/up"
+        />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:scaleType="fitEnd"
+        android:layout_marginTop="110dp"
+        android:layout_marginRight="11dp"
+        android:src="@drawable/down"
+        android:layout_alignParentRight="true"
+        android:id="@+id/down"
+        android:onClick="zoom"
+        />
+
+    <Button
+        android:id="@+id/locationControllerNetwork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/resume"
+        android:onClick="toggleNetworkUpdate"
+        android:layout_alignParentBottom="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/longlocation"
+        android:background="#07000000"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_alignParentEnd="true"
+        android:textColor="#fff"
+        android:text="Longitude"
+        android:textSize="20dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:id="@+id/latlocation"
+        android:background="#07000000"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_above="@+id/longlocation"
+        android:layout_alignParentStart="true"
+        android:textColor="#fff"
+        android:text="Latitude"
+        android:textSize="20dp"
+        />
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/direction"
+        android:layout_above="@+id/latlocation"
+        android:id="@+id/distancemap"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:scaleType="fitEnd"
+        />
+
+
+</RelativeLayout>

@@ -15,67 +15,118 @@ import android.widget.Toast;
 
 import com.example.admin.restro.MainActivity;
 import com.example.admin.restro.R;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONObject;
+
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
 
+    private TextView textView;
+    private Boolean check;
+    private CallbackManager callbackManager;
+    //boolean check=true;
+    private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            final AccessToken accessToken = loginResult.getAccessToken();
+            Profile profile = Profile.getCurrentProfile();
+            /*check();
+            if(!check)
+            {
+                Intent intent = new Intent(Login.this,MainActivity.class);
+                startActivity(intent);
+            }*/
+
+            GraphRequestAsyncTask request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+                @Override
+                public void onCompleted(JSONObject user, GraphResponse graphResponse) {
+                    String email = user.optString("email");
+                    String name = user.optString("name");
+                    Intent intent = new Intent(Login.this, MainActivity.class);
+                    intent.putExtra("name", name);
+                    intent.putExtra("email", email);
+                    startActivity(intent);
+                    check();
+                }
+            }).executeAsync();
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override
+        public void onError(FacebookException error) {
+
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
+        textView = (TextView) findViewById(R.id.facebooktv);
+        LoginButton loginButton = (LoginButton) findViewById(R.id.facebookloginbutton);
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_friends"));
+        loginButton.registerCallback(callbackManager, callback);
+
         final EditText email = (EditText) findViewById(R.id.e1);
         final EditText pass = (EditText) findViewById(R.id.e2);
-        TextView mailname = (TextView)findViewById(R.id.navmail);
+
         Button button = (Button) findViewById(R.id.button1);
-        button.setOnClickListener(new View.OnClickListener(){
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 final String emailtext = email.getText().toString();
                 final String password = pass.getText().toString();
-                if(emailtext.length()==0)
-                {
+                if (emailtext.length() == 0) {
                     email.setError("Enter an Email Bro");
                 }
-                if (!isValidEmail(emailtext) && emailtext.length()!=0) {
+                if (!isValidEmail(emailtext) && emailtext.length() != 0) {
                     email.setError("Invalid Email Bro");
                 }
 
-                if (password.length()==0)
-                    {
-                        pass.setError("Enter a Password Bro");
+                if (password.length() == 0) {
+                    pass.setError("Enter a Password Bro");
 
-                    }
-                if (password.length()>12)
-                {
+                }
+                if (password.length() > 12) {
                     pass.setError("Password should be lesser than 12 characters");
 
                 }
 
-                if(isValidEmail(emailtext)&&(password.length()!=0 && password.length()<13))
-                {
-                    Intent intent = new Intent(Login.this, MainActivity.class);
-                    startActivity(intent);
-
+                if (isValidEmail(emailtext) && (password.length() != 0 && password.length() < 13)) {
+                    Intent intents = new Intent(Login.this, MainActivity.class);
+                    startActivity(intents);
+                    check();
                 }
 
 
-
             }
         });
-        TextView tv2 = (TextView)findViewById(R.id.tv2);
-        tv2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Login.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+       
 
-        TextView signup = (TextView)findViewById(R.id.signup);
+        TextView signup = (TextView) findViewById(R.id.signup);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +143,15 @@ public class Login extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
+      public void check()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        check = true;
+        editor.putBoolean("check", check);
+        editor.commit();
+    }
+
     private boolean isValidEmail(String emailtext) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -101,11 +161,9 @@ public class Login extends AppCompatActivity {
         return matcher.matches();
     }
 
-    public String isValidPassword(String pass) {
-        if (pass != null && pass.length() > 12)
-        {
-          return pass;
-        }
-        return null;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

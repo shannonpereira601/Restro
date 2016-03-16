@@ -10,4 +10,57 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_feedback">Feedback</string>
     <string name="email">restroapp@gmail.com</string>
+    <string name="title_activity_hotel">Hotel</string>
+    <string-array name="tabs">
+        <item>Details</item>
+        <item>Images</item>
+        <item>Reserve</item>
+    </string-array>
+    <string-array name="Hotels">
+        <item>5 Spice</item>
+        <item>Konkan</item>
+        <item>Chotus</item>
+        <item>West Coast</item>
+        <item>Banjara</item>
+        <item>Global Fusion</item>
+        <item>5 Spice</item>
+        <item>Konkan</item>
+        <item>Chotus</item>
+        <item>West Coast</item>
+        <item>Banjara</item>
+        <item>Global Fusion</item>
+    </string-array>
+    <string-array name="Location">
+        <item>Borivali West</item>
+        <item>Dahisar West</item>
+        <item>Borivali East</item>
+        <item>Kandivali West</item>
+        <item>Dombivali East</item>
+        <item>Malad West</item>
+        <item>Borivali West</item>
+        <item>Dahisar West</item>
+        <item>Borivali East</item>
+        <item>Kandivali West</item>
+        <item>Dombivali East</item>
+        <item>Malad West</item>
+    </string-array>
+    <string-array name="Cost">
+        <item>Rs.500 for two people </item>
+        <item>Rs.800 for two people </item>
+        <item>Rs.300 for two people </item>
+        <item>Rs.1000 for two people </item>
+        <item>Rs.700 for two people </item>
+        <item>Rs.450 for two people </item>
+        <item>Rs.500 for two people </item>
+        <item>Rs.800 for two people </item>
+        <item>Rs.300 for two people </item>
+        <item>Rs.1000 for two people </item>
+        <item>Rs.700 for two people </item>
+        <item>Rs.450 for two people </item>
+    </string-array>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="title_activity_tabbbb">Tabbbb</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="app_id">240960482912857</string>
 </resources>

@@ -8,8 +8,7 @@
             android:title="Hotels" />
         <item
             android:id="@+id/n2"
-
-            android:title="Feedback" />
+            android:title="Profile" />
         <item
             android:id="@+id/n3"
             android:icon="@drawable/map"
@@ -23,6 +22,9 @@
 
     <item android:title="Communicate">
         <menu>
+            <item
+                android:id="@+id/feedback"
+                android:title="Feedback" />
             <item
                 android:id="@+id/contactus"
                 android:icon="@drawable/call"

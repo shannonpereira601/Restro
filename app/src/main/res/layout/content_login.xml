@@ -94,16 +94,16 @@
         />
 
 
-  <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:text="Pass"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:id="@+id/tv2"
-        android:layout_marginTop="25dp"
-        android:textColor="#fff"
-        android:textSize="17sp"
+
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/facebookloginbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="30dp"
+        android:layout_below="@+id/signup"
         />
 
    </RelativeLayout>

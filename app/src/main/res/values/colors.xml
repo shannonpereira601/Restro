@@ -2,8 +2,8 @@
 <resources>
     <color name="colorPrimary">#d32f2f</color>
     <color name="colorPrimaryDark">#b71c1c</color>
-    <color name="colorAccent">#d32f2f  </color>
+    <color name="colorAccent">#d32f2f</color>
     <color name="colorCard">#e53935</color>
-    <color name="background">#ffebee</color>
-    <color name="green">#8bc34a</color>
+    <color name="tabsScrollColor">#8a140e</color>
+    <color name="colorWhite">#77ffffff</color>
 </resources>

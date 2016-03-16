@@ -1,10 +1,16 @@
 package com.example.admin.restro;
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
@@ -26,6 +32,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.admin.restro.Signing.Login;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 
 import org.w3c.dom.Text;
 
@@ -34,22 +42,38 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private Boolean check1=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkLogin();
+        if(!check1) {
+            Intent intent = new Intent(MainActivity.this, Login.class);
+            startActivity(intent);
+        }
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        TextView email= (TextView)findViewById(R.id.navmail);
-        Intent intent = getIntent();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView name = (TextView) header.findViewById(R.id.username);
+        TextView email = (TextView) header.findViewById(R.id.usermail);
+        // String username = getIntent().getExtras().getString("name");
+        //String fbemail = getIntent().getExtras().getString("email");
+        //email.setText(fbemail);
+        //name.setText(username);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-         RecyclerView reclist = (RecyclerView)findViewById(R.id.rv);
+        RecyclerView reclist = (RecyclerView) findViewById(R.id.rv);
         reclist.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         reclist.setLayoutManager(llm);
         RVAdapter adapter = new RVAdapter(getdata());
         reclist.setAdapter(adapter);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,21 +89,26 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
     }
 
-    public static List<Data> getdata()
+    public boolean checkLogin()
     {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        check1 = false;
+        check1 = sharedPreferences.getBoolean("check",false);
+        return check1;
+    }
+
+    public List<Data> getdata() {
         List<Data> hotels = new ArrayList<>();
-        int[] Photo = {R.drawable.roll,R.drawable.fish,R.drawable.chinese,R.drawable.indian,R.drawable.fish,R.drawable.roll,R.drawable.roll,R.drawable.fish,R.drawable.chinese,R.drawable.indian,R.drawable.fish,R.drawable.roll};
-        String[] Hotel = {"5 Spice","Konkan","Chotus","Kinara","Banjara","Global Fusion","5 Spice","Konkan","Chotus","Kinara","Banjara","Global Fusion"};
-        String[] Location = {"Borivali West","Dahisar West","Borivali West","Kandivali East","Borival West","Malad West","Borivali West","Dahisar West","Borivali West","Kandivali East","Borival West","Malad West"};
-        for(int i= 0; i<Hotel.length; i++)
-        {
+        int[] Photo = {R.drawable.roll, R.drawable.fish, R.drawable.chinese, R.drawable.indian, R.drawable.fish, R.drawable.roll, R.drawable.roll, R.drawable.fish, R.drawable.chinese, R.drawable.indian, R.drawable.fish, R.drawable.roll};
+        String[] Hotel = getResources().getStringArray(R.array.Hotels);
+        String[] Location = getResources().getStringArray(R.array.Location);
+        for (int i = 0; i < Hotel.length; i++) {
             Data current = new Data();
-            current.hotelphoto= Photo[i];
+            current.hotelphoto = Photo[i];
             current.hotelname = Hotel[i];
             current.location = Location[i];
             hotels.add(current);
@@ -87,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         return hotels;
     }
 
-   @Override
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -96,7 +125,6 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
 
 
     @Override
@@ -125,35 +153,76 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+        final boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
         int id = item.getItemId();
 
         if (id == R.id.n1) {
 
         } else if (id == R.id.n2) {
-            Intent intent = new Intent(MainActivity.this, Feedback.class);
-            startActivity(intent);
 
 
         } else if (id == R.id.n3) {
-            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivity(intent);
+
+            boolean connected = haveNetworkConnection();
+
+            if (!enabled) {
+                Toast.makeText(getBaseContext(), "Please Turn On your GPS", Toast.LENGTH_LONG).show();
+                Intent intent1 = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent1);
+            }
+            if (!connected && enabled) {
+                Toast.makeText(getBaseContext(), "Network is Off", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intent);
+            }
+            if (enabled && connected) {
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intent);
+            }
 
         } else if (id == R.id.n4) {
-            Intent intent = new Intent(MainActivity.this,  Login.class);
+            Intent intent = new Intent(MainActivity.this, Login.class);
             startActivity(intent);
+            LoginManager.getInstance().logOut();
+            SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            check1 = false;
+            editor.putBoolean("check", check1);
+            editor.commit();
 
-        }
-        else if (id == R.id.contactus) {
-            Dialog dialog= new Dialog();
+        } else if (id == R.id.feedback) {
+            Intent intent = new Intent(MainActivity.this, Feedback.class);
+            startActivity(intent);
+        } else if (id == R.id.contactus) {
+            Dialog dialog = new Dialog();
             dialog.show(getFragmentManager(), "dialog");
-
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-}
 
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
+
+
+}
 
 
