@@ -4,20 +4,21 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 /**
  * Created by admin on 14/03/2016.
  */
-public class ImageAdapter extends BaseAdapter {
+public class ImageAdapter2 extends BaseAdapter {
     private Context mContext;
-    public ImageAdapter(Context c) {
+    Integer[] something = new Integer[10];
+    public ImageAdapter2(Context c,Integer[] integer) {
         mContext = c;
+        something = integer;
     }
 
     public int getCount() {
-        return mThumbIds.length;
+        return something.length;
     }
 
     public Object getItem(int position) {
@@ -42,14 +43,10 @@ public class ImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        imageView.setImageResource(mThumbIds[position]);
+        imageView.setImageResource(something[position]);
         return imageView;
     }
 
     // references to our images
-    private Integer[] mThumbIds = {
-            R.drawable.chinese,R.drawable.roll,R.drawable.chinese,
-            R.drawable.chinese,R.drawable.roll,R.drawable.chinese,
-            R.drawable.chinese,R.drawable.roll,R.drawable.chinese
-    };
+
 }
