@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.admin.restro.ImageAdapter;
@@ -22,6 +23,7 @@ import com.example.admin.restro.R;
  */
 public class Tab3 extends Fragment {
     GridView gv;
+    TextView tv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
