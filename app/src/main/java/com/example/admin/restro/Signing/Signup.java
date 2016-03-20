@@ -13,6 +13,25 @@ import com.example.admin.restro.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Signup extends AppCompatActivity {
 
@@ -31,6 +50,8 @@ public class Signup extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
 
             @Override
+
+
             public void onClick(View v) {
                 /*
                 String subject = "Confirmation Email";
@@ -48,56 +69,48 @@ public class Signup extends AppCompatActivity {
                 final String user = username.getText().toString();
                 final String number = phone.getText().toString();
                 final String home = address.getText().toString();
-                if(user.length()==0)
-                {
+                if (user.length() == 0) {
                     username.setError("Enter a username");
                 }
-                if(emailtext.length()==0)
-                {
+                if (emailtext.length() == 0) {
                     email.setError("Enter an Email");
                 }
-                if (password.length()==0)
-                {
+                if (password.length() == 0) {
                     pass.setError("Enter a Password");
 
                 }
-                if(verify.length()==0)
-                {
+                if (verify.length() == 0) {
                     verpassword.setError("Enter a Password Above");
                 }
-                if(number.length()==0)
-                {
+                if (number.length() == 0) {
                     phone.setError("Enter your Phone Number");
                 }
-                if(home.length()==0)
-                {
+                if (home.length() == 0) {
                     address.setError("Enter your Address");
                 }
-                if (!isValidEmail(emailtext) && emailtext.length()!=0) {
+                if (!isValidEmail(emailtext) && emailtext.length() != 0) {
                     email.setError("Invalid Email");
                 }
-                if (password.length()>12)
-                {
+                if (password.length() > 12) {
                     pass.setError("Password should be lesser than 12 characters");
                 }
                 boolean a = password.equalsIgnoreCase(verify);
-                if (!a && password.length()!=0)
-                {
+                if (!a && password.length() != 0) {
                     verpassword.setError("Password do not match Bro");
                 }
-                if (!isValidNumber(number))
-                {
+                if (!isValidNumber(number)) {
                     phone.setError("Invalid Phone Number");
                 }
-                if(isValidEmail(emailtext)&&(password.length()!=0 && password.length()<13) && (password==verify))
-                {
+
+                if (isValidEmail(emailtext) && (password.length() != 0 && password.length() < 13) && (password == verify)) {
                     Intent intent = new Intent(Signup.this, MainActivity.class);
                     startActivity(intent);
                 }
-
             }
-        });
-    }
+
+            });
+        }
+
 
     private boolean isValidEmail(String emailtext) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -116,3 +129,4 @@ public class Signup extends AppCompatActivity {
         return matcher.matches();
     }
 }
+

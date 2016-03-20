@@ -116,6 +116,7 @@ public class Login extends AppCompatActivity {
                 }
 
                 if (isValidEmail(emailtext) && (password.length() != 0 && password.length() < 13)) {
+                    sendEmail();
                     Intent intents = new Intent(Login.this, MainActivity.class);
                     startActivity(intents);
                     check();
@@ -124,7 +125,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
-       
+
 
         TextView signup = (TextView) findViewById(R.id.signup);
         signup.setOnClickListener(new View.OnClickListener() {
@@ -143,8 +144,7 @@ public class Login extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-      public void check()
-    {
+    public void check() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         check = true;
@@ -165,5 +165,19 @@ public class Login extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void sendEmail() {
+        //Getting content for email
+        String email = "parekhshraddha27@gmail.com";
+        String subject = "Thank You-For using Restro";
+        String message = "THANKS!! ";
+
+        //Creating SendMail object
+        SendMail sm = new SendMail(this, email, subject, message);
+
+        //Executing sendmail to send email
+        sm.execute();
+
     }
 }
