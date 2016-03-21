@@ -1,26 +1,16 @@
 package com.example.admin.restro;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.admin.restro.Tab.Tab1;
-import com.example.admin.restro.Tab.Tab2;
-import com.example.admin.restro.Tab.Tab3;
+import com.example.admin.restro.Tab.Reservation;
+import com.example.admin.restro.Tab.Food;
 
 public class Hotel extends AppCompatActivity {
 
@@ -30,7 +20,7 @@ public class Hotel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hotel);
+        setContentView(R.layout.hopethisworks);
         String kpnach = "Test";
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,11 +59,11 @@ public class Hotel extends AppCompatActivity {
             }
             else  if(position == 1)            // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
             {
-                Tab2 tab2 = new Tab2();
+                Food tab2 = new Food();
                 return tab2;
             }
             else {
-                Tab3 tab3 = new Tab3();
+                Reservation tab3 = new Reservation();
                 return tab3;
             }
         }
@@ -90,7 +80,7 @@ public class Hotel extends AppCompatActivity {
     }
 
 
-    public static class MyFragment extends Fragment{
+  /*  public static class MyFragment extends Fragment{
         public static MyFragment getInstance(int position) {
 
             MyFragment myFragmeent = new MyFragment();
@@ -112,6 +102,6 @@ public class Hotel extends AppCompatActivity {
             }
             return layout;
         }
-    }
+    }*/
 
 }

@@ -6,4 +6,8 @@
     <color name="colorCard">#e53935</color>
     <color name="tabsScrollColor">#8a140e</color>
     <color name="colorWhite">#77ffffff</color>
+    <color name="colorFAB1">#1976D2</color>
+    <color name="colorFAB2">#8E24AA</color>
+    <color name="colorFAB3">#D81B60</color>
+    <color name="table">#ef5350</color>
 </resources>

@@ -9,8 +9,10 @@ import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
@@ -26,11 +28,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.admin.restro.Signing.Login;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -42,13 +48,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private Boolean check1=false;
+    private Boolean check1 = false;
+    private int isFabOpen;
+    private FloatingActionButton fab, fab1, fab2, fab3;
+    private Animation fab_open,fab_open1, fab_open2,fab_close, fab_close1, fab_close2, rotate_backward, rotate_forward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkLogin();
-        if(!check1) {
+        if (!check1) {
             Intent intent = new Intent(MainActivity.this, Login.class);
             startActivity(intent);
         }
@@ -74,12 +83,37 @@ public class MainActivity extends AppCompatActivity
         RVAdapter adapter = new RVAdapter(getdata());
         reclist.setAdapter(adapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab3 = (FloatingActionButton) findViewById(R.id.fab3);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_open1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open1);
+        fab_open2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open2);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        fab_close1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close1);
+        fab_close2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close2);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "No Action yet bro :(", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if(isFabOpen%2==0) {
+                    fab1.startAnimation(fab_open);
+                    fab2.startAnimation(fab_open1);
+                    fab3.startAnimation(fab_open2);
+                    Log.d("Pahuchla", "open");
+                    fab.startAnimation(rotate_forward);
+
+                }
+                else
+                {
+                   fab1.startAnimation(fab_close);
+                    fab2.startAnimation(fab_close1);
+                    fab3.startAnimation(fab_close2);
+                    fab.startAnimation(rotate_backward);
+                }
+                isFabOpen++;
             }
         });
 
@@ -89,15 +123,14 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(this);
 
     }
 
-    public boolean checkLogin()
-    {
+
+    public boolean checkLogin() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         check1 = false;
-        check1 = sharedPreferences.getBoolean("check",false);
+        check1 = sharedPreferences.getBoolean("check", false);
         return check1;
     }
 
@@ -195,8 +228,28 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, Feedback.class);
             startActivity(intent);
         } else if (id == R.id.contactus) {
-            Dialog dialog = new Dialog();
-            dialog.show(getFragmentManager(), "dialog");
+            //Dialog dialog = new Dialog();
+            //dialog.show(getFragmentManager(), "dialog");
+            Boolean wrapInScrollView = true;
+            new MaterialDialog.Builder(this)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            String phone = "+919930874095";
+                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+                            startActivity(intent);
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            // TODO
+                        }
+                    }).title("Contact Us")
+                    .content("Would you like to contact the Restro Helpline?")
+                    .positiveText("Yes")
+                    .negativeText("No")
+                    .show();
         }
 
 

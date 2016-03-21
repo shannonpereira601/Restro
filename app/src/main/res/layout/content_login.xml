@@ -93,17 +93,25 @@
         android:textColor="#777"
         />
 
-
-
-
     <com.facebook.login.widget.LoginButton
+        android:layout_width="350dp"
+        android:layout_height="40dp"
         android:id="@+id/facebookloginbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="30dp"
         android:layout_below="@+id/signup"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/fbcorner"/>
+
+    <TextView
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/signup"
+        android:layout_marginTop="15dp"
+        android:elevation="4dp"
         />
+
+
+
 
    </RelativeLayout>

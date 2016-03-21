@@ -27,6 +27,7 @@ import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -44,12 +45,11 @@ public class Login extends AppCompatActivity {
         public void onSuccess(LoginResult loginResult) {
             final AccessToken accessToken = loginResult.getAccessToken();
             Profile profile = Profile.getCurrentProfile();
-            /*check();
-            if(!check)
-            {
-                Intent intent = new Intent(Login.this,MainActivity.class);
+            check();
+            if (!check) {
+                Intent intent = new Intent(Login.this, MainActivity.class);
                 startActivity(intent);
-            }*/
+            }
 
             GraphRequestAsyncTask request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
                 @Override
@@ -84,7 +84,7 @@ public class Login extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
-        textView = (TextView) findViewById(R.id.facebooktv);
+        //textView = (TextView) findViewById(R.id.facebooktv);
         LoginButton loginButton = (LoginButton) findViewById(R.id.facebookloginbutton);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_friends"));
         loginButton.registerCallback(callbackManager, callback);
@@ -124,7 +124,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
-       
+
 
         TextView signup = (TextView) findViewById(R.id.signup);
         signup.setOnClickListener(new View.OnClickListener() {
@@ -143,8 +143,7 @@ public class Login extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-      public void check()
-    {
+    public void check() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         check = true;

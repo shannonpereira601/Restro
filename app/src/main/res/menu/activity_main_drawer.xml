@@ -4,10 +4,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/n1"
-
+            android:icon="@drawable/restaurant"
             android:title="Hotels" />
         <item
             android:id="@+id/n2"
+            android:icon="@drawable/profile"
             android:title="Profile" />
         <item
             android:id="@+id/n3"
@@ -24,6 +25,7 @@
         <menu>
             <item
                 android:id="@+id/feedback"
+                android:icon="@drawable/feedback"
                 android:title="Feedback" />
             <item
                 android:id="@+id/contactus"
