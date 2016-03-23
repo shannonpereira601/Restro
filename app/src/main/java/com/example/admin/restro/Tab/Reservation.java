@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.example.admin.restro.ReservationAdapter;
 import com.example.admin.restro.R;
@@ -17,30 +19,36 @@ import com.example.admin.restro.R;
  */
 public class Reservation extends Fragment {
     GridView gv;
+    Integer[] table;
     Context context = getContext();
     //public static Integer[] images = {R.drawable.chicken, R.drawable.chutney, R.drawable.custard, R.drawable.falooda, R.drawable.lasagna, R.drawable.roti,R.drawable.waiter};
-   // public static Integer[] images = {R.drawable.green,R.drawable.green,R.drawable.green,R.drawable.green,R.drawable.green,R.drawable.green,R.drawable.green};
-    public static String[] counttable = {"4","5","2","3","4","5","2"};
+    // public static Integer[] images = {R.drawable.green,R.drawable.green,R.drawable.green,R.drawable.green,R.drawable.green,R.drawable.green,R.drawable.green};
+    public static String[] counttable = {"4", "5", "2", "3", "4", "5", "2"};
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_table, container, false);
         gv = (GridView) v.findViewById(R.id.gridView1);
         int length = 7;
-        Integer[] fkit = new Integer[length];
+        table = new Integer[length];
 
-        for(int i=0;i<length;i++)
-        {
-            fkit[i] = R.drawable.green;
+        for (int i = 0; i < length; i++) {
+            table[i] = R.drawable.green;
         }
-        gv.setAdapter(new ReservationAdapter(getContext(),counttable,fkit));
+        gv.setAdapter(new ReservationAdapter(getContext(), counttable, table));
 
-      /*  gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(getContext(), "" + position,
-                        Toast.LENGTH_SHORT).show();
+                if (table[position] == R.drawable.green) {
+                    table[position] = R.drawable.red;
+                    gv.setAdapter(new ReservationAdapter(getContext(), counttable, table));
+                } else {
+                    table[position] = R.drawable.green;
+                    gv.setAdapter(new ReservationAdapter(getContext(), counttable, table));
+                }
             }
-        });*/
+        });
         return v;
     }
 }

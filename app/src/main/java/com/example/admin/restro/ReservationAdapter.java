@@ -70,7 +70,13 @@ public class ReservationAdapter extends BaseAdapter {
 
             // if it's not recycled, initialize some attributes
             holder.image.setImageResource(imageid[position]);
-            holder.text1.setText("Capacity: "+ result[position]);
+            if(imageid[position]==R.drawable.green) {
+                holder.text1.setText("Capacity: " + result[position]);
+            }
+            else if(imageid[position]==R.drawable.red)
+            {
+                holder.text1.setText("Booked");
+            }
             //int h = mContext.getResources().getDisplayMetrics().densityDpi;
             // holder.image.setLayoutParams(new LayoutParams(h-50,h-50));
             // holder.image.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -85,6 +91,7 @@ public class ReservationAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
 
         }
+        /*
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,17 +105,17 @@ public class ReservationAdapter extends BaseAdapter {
                     holder.image.setImageResource(R.drawable.green);
                     holder.text1.setText("Capacity: " + result[position]);
                    // imageid[position]=R.drawable.green;
-                }
+                }*/
+
                /* if (imagecount % 2 == 0) {
                     holder.image.setImageResource(R.drawable.red);
                     holder.text1.setText("Booked");
                 } else {
                     holder.image.setImageResource(R.drawable.green);
                     holder.text1.setText(result[position]);
-                }*/
-                imagecount++;
+                }
             }
-        });
+        });*/
 
         return convertView;
 

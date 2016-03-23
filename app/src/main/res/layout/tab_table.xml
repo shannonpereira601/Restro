@@ -35,6 +35,7 @@
         android:layout_below="@id/ll1"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:cardBackgroundColor="#ddd"
+        android:padding="10dp"
         >
     <GridView
         android:id="@+id/gridView1"

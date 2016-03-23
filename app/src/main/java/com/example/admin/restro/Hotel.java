@@ -20,7 +20,7 @@ public class Hotel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hopethisworks);
+        setContentView(R.layout.activity_hotel);
         String kpnach = "Test";
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -3,24 +3,25 @@ package com.example.admin.restro.Signing;
 /**
  * Created by PAREKH on 20-03-2016.
  */
-        import android.app.ProgressDialog;
-        import android.content.Context;
-        import android.os.AsyncTask;
-        import android.widget.Toast;
 
-        import java.util.Properties;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.widget.Toast;
 
-        import javax.mail.Message;
-        import javax.mail.MessagingException;
-        import javax.mail.PasswordAuthentication;
-        import javax.mail.Session;
-        import javax.mail.Transport;
-        import javax.mail.internet.InternetAddress;
-        import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 
 //Class is extending AsyncTask because this class is going to perform a networking operation
-public class SendMail extends AsyncTask<Void,Void,Void> {
+public class SendMail extends AsyncTask<Void, Void, Void> {
 
     //Declaring Variables
     private Context context;
@@ -35,7 +36,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
     private ProgressDialog progressDialog;
 
     //Class Constructor
-    public SendMail(Context context, String email, String subject, String message){
+    public SendMail(Context context, String email, String subject, String message) {
         //Initializing variables
         this.context = context;
         this.email = email;
@@ -47,7 +48,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         //Showing progress dialog while sending email
-        progressDialog = ProgressDialog.show(context,"Sending message","Please wait...",false,false);
+        progressDialog = ProgressDialog.show(context, "Sending message", "Please wait...", false, false);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         //Dismissing the progress dialog
         progressDialog.dismiss();
         //Showing a success message
-        Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Message Sent", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -96,10 +97,14 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
 
             //Sending email
             Transport.send(mm);
-
         } catch (MessagingException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public class Config {
+        public static final String EMAIL = "application.restro@yahoo.in";
+        public static final String PASSWORD = "restro1234";
     }
 }

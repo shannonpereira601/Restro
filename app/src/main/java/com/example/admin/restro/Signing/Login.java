@@ -39,6 +39,7 @@ public class Login extends AppCompatActivity {
     private TextView textView;
     private Boolean check;
     private CallbackManager callbackManager;
+    String emailtext;
     //boolean check=true;
     private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
         @Override
@@ -97,7 +98,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final String emailtext = email.getText().toString();
+                emailtext = email.getText().toString();
                 final String password = pass.getText().toString();
                 if (emailtext.length() == 0) {
                     email.setError("Enter an Email Bro");
@@ -169,13 +170,12 @@ public class Login extends AppCompatActivity {
 
     private void sendEmail() {
         //Getting content for email
-        String email = "parekhshraddha27@gmail.com";
+        String email = emailtext;
         String subject = "Thank You-For using Restro";
         String message = "THANKS!! ";
 
         //Creating SendMail object
         SendMail sm = new SendMail(this, email, subject, message);
-
         //Executing sendmail to send email
         sm.execute();
 

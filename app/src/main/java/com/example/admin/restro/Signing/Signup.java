@@ -1,6 +1,8 @@
 package com.example.admin.restro.Signing;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,7 +40,9 @@ public class Signup extends AppCompatActivity {
 
     private static final String REGISTER_URL = "http://restro.ey.es/signinreg.php";
     Button done;
-    EditText username, email, pass, verpassword, phone1, address1;
+    EditText username, email, pass, verpassword, phoneno, addressloc;
+    String name1, username1, password1, address1, phone1;
+    private Boolean check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +52,13 @@ public class Signup extends AppCompatActivity {
         email = (EditText) findViewById(R.id.s2);
         pass = (EditText) findViewById(R.id.s3);
         verpassword = (EditText) findViewById(R.id.s4);
-        phone1 = (EditText) findViewById(R.id.s5);
-        address1 = (EditText) findViewById(R.id.s6);
+        phoneno = (EditText) findViewById(R.id.s5);
+        addressloc = (EditText) findViewById(R.id.s6);
         done = (Button) findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerUser();
+
                 /*
                 String subject = "Confirmation Email";
                 String message = "Thanking you for Signing up for Restro";
@@ -69,8 +73,8 @@ public class Signup extends AppCompatActivity {
                 final String password = pass.getText().toString();
                 final String verify = verpassword.getText().toString();
                 final String user = username.getText().toString();
-                final String number = phone1.getText().toString();
-                final String home = address1.getText().toString();
+                final String number = phoneno.getText().toString();
+                final String home = addressloc.getText().toString();
                 if (user.length() == 0) {
                     username.setError("Enter a username");
                 }
@@ -79,16 +83,15 @@ public class Signup extends AppCompatActivity {
                 }
                 if (password.length() == 0) {
                     pass.setError("Enter a Password");
-
                 }
                 if (verify.length() == 0) {
                     verpassword.setError("Enter a Password Above");
                 }
                 if (number.length() == 0) {
-                    phone1.setError("Enter your Phone Number");
+                    phoneno.setError("Enter your Phone Number");
                 }
                 if (home.length() == 0) {
-                    address1.setError("Enter your Address");
+                    addressloc.setError("Enter your Address");
                 }
                 if (!isValidEmail(emailtext) && emailtext.length() != 0) {
                     email.setError("Invalid Email");
@@ -101,33 +104,33 @@ public class Signup extends AppCompatActivity {
                     verpassword.setError("Password do not match Bro");
                 }
                 if (!isValidNumber(number)) {
-                    phone1.setError("Invalid Phone Number");
+                    phoneno.setError("Invalid Phone Number");
                 }
 
-                if (isValidEmail(emailtext) && (password.length() != 0 && password.length() < 13) && (password == verify)) {
-                    register(user, emailtext, password, number, home);
-
+                if (isValidEmail(emailtext)&& (password.length() != 0 && password.length() < 13) /*&& (password == verify)*/) {
+                    registerUser();
+                    register(name1, username1, password1, address1, phone1);
                     Intent intent = new Intent(Signup.this, MainActivity.class);
                     startActivity(intent);
+                    check();
                 }
             }
         });
     }
 
     private void registerUser() {
-        String name = username.getText().toString().trim().toLowerCase();
-        String username = email.getText().toString().trim().toLowerCase();
-        String password = pass.getText().toString().trim().toLowerCase();
-        String address = address1.getText().toString().trim().toLowerCase();
-        String phone = phone1.getText().toString().trim().toLowerCase();
 
+        name1 = username.getText().toString().trim().toLowerCase();
+        username1 = email.getText().toString().trim().toLowerCase();
+        password1 = pass.getText().toString().trim().toLowerCase();
+        address1 = addressloc.getText().toString().trim().toLowerCase();
+        phone1 = phoneno.getText().toString().trim().toLowerCase();
     }
 
     private void register(String name, String username, String password, String address, String phone) {
         class RegisterUser extends AsyncTask<String, Void, String> {
             ProgressDialog loading;
             RegisterUserClass ruc = new RegisterUserClass();
-
 
             @Override
             protected void onPreExecute() {
@@ -175,6 +178,14 @@ public class Signup extends AppCompatActivity {
         Pattern pattern = Pattern.compile(NUMBER_PATTERN);
         Matcher matcher = pattern.matcher(number);
         return matcher.matches();
+    }
+
+    public void check() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        check = true;
+        editor.putBoolean("check", check);
+        editor.commit();
     }
 }
 
