@@ -39,7 +39,6 @@ public class Tab1 extends Fragment {
             hotel.setText(ahotel[x] + "");
             location.setText(alocation[x] + "");
             cost.setText(acost[x] + "");
-
         }
         return v;
     }

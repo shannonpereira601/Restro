@@ -123,12 +123,12 @@ public class Signup extends AppCompatActivity {
         name1 = username.getText().toString();
         username1 = email.getText().toString();
         password1 = pass.getText().toString();
-        address1 = addressloc.getText().toString();
         phone1 = phoneno.getText().toString();
+        address1 = addressloc.getText().toString();
         String method = "register";
         RegisterUserClass ru = new RegisterUserClass(this);
         //   String abc="method" + method +"username" + username +"pass"+password;
-        ru.execute(method, name1, username1, password1, address1, phone1);
+        ru.execute(method, name1, username1, password1, phone1, address1);
         sendEmail();
     }
 

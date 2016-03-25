@@ -3,8 +3,12 @@ package com.example.admin.restro.Signing;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -54,6 +58,8 @@ public class Login extends AppCompatActivity {
     Boolean failed;
     RequestQueue requestQueue;
     String insertURL = "http://restro.esy.es/login.php";
+    String checking;
+    TextView datavalues;
     //boolean check=true;
     private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
         @Override
@@ -102,7 +108,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         //textView = (TextView) findViewById(R.id.facebooktv);
         ImageView restro = (ImageView) findViewById(R.id.restroimage);
-        final TextView textView = (TextView) findViewById(R.id.textView);
+
         Button database = (Button) findViewById(R.id.database);
 
         LoginButton loginButton = (LoginButton) findViewById(R.id.facebookloginbutton);
@@ -114,25 +120,22 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("ImageView", "Clicked here");
-                Toast.makeText(getApplicationContext(),"Clicked",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_LONG).show();
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, insertURL, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray list = response.getJSONArray("List");
+                            Toast.makeText(getBaseContext(), "value " + list.length(), Toast.LENGTH_LONG).show();
+                            TextView kp = (TextView) findViewById(R.id.result);
                             for (int i = 0; i < list.length(); i++) {
+
                                 JSONObject data = list.getJSONObject(i);
                                 String jname = data.getString("Name");
                                 String jmail = data.getString("Email_id");
-                                String jpass = data.getString("Password");
-                                String jphone = data.getString("Phone");
-                                String jadd = data.getString("Address");
-
-                                textView.append(jname + " " + jmail + " " + jpass + " " + jphone + " " + jadd + "\n");
+                                kp.append(jname + " " + jmail + " " + "\n");
                             }
-                            textView.append("===\n");
-
-
+                            kp.append("===\n");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -183,7 +186,11 @@ public class Login extends AppCompatActivity {
 
                 if (isValidEmail(emailtext) && (password.length() != 0 && password.length() < 13)) {
                     //sendEmail();
-                    login();
+                    if (haveNetworkConnection()) {
+                        login();
+                    } else {
+                        Toast.makeText(getBaseContext(), "Please turn your Network On", Toast.LENGTH_LONG).show();
+                    }
                 }
 
 
@@ -259,5 +266,27 @@ public class Login extends AppCompatActivity {
         //Executing sendmail to send email
         sm.execute();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        return;
+    }
+
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 }

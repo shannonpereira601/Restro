@@ -18,6 +18,14 @@ import com.example.admin.restro.R;
  * Created by admin on 13/03/2016.
  */
 public class Reservation extends Fragment {
+    public static Reservation getInstance(int position) {
+
+        Reservation myFragmeent = new Reservation();
+        Bundle args = new Bundle();
+        args.putInt("number",position);
+        myFragmeent.setArguments(args);
+        return myFragmeent;
+    }
     GridView gv;
     Integer[] table;
     Context context = getContext();
@@ -29,7 +37,11 @@ public class Reservation extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_table, container, false);
         gv = (GridView) v.findViewById(R.id.gridView1);
-        int length = 7;
+        Bundle bundle = getArguments();
+        int x = bundle.getInt("number");
+        String[] tables = getResources().getStringArray(R.array.tablevalues);
+        int length = Integer.parseInt(tables[x]);
+      //  int length = 7;
         table = new Integer[length];
 
         for (int i = 0; i < length; i++) {

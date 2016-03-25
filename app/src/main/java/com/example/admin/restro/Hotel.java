@@ -63,7 +63,9 @@ public class Hotel extends AppCompatActivity {
                 return tab2;
             }
             else {
-                Reservation tab3 = new Reservation();
+                Bundle bundle = getIntent().getExtras();
+                int x = bundle.getInt("value");
+                Reservation tab3 = Reservation.getInstance(x);
                 return tab3;
             }
         }
