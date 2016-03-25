@@ -43,6 +43,7 @@ public class Signup extends AppCompatActivity {
     EditText username, email, pass, verpassword, phoneno, addressloc;
     String name1, username1, password1, address1, phone1;
     private Boolean check;
+    Context context = getBaseContext();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,6 @@ public class Signup extends AppCompatActivity {
 
                 if (isValidEmail(emailtext)&& (password.length() != 0 && password.length() < 13) /*&& (password == verify)*/) {
                     registerUser();
-                    register(name1, username1, password1, address1, phone1);
                     Intent intent = new Intent(Signup.this, MainActivity.class);
                     startActivity(intent);
                     check();
@@ -125,41 +125,10 @@ public class Signup extends AppCompatActivity {
         password1 = pass.getText().toString().trim().toLowerCase();
         address1 = addressloc.getText().toString().trim().toLowerCase();
         phone1 = phoneno.getText().toString().trim().toLowerCase();
-    }
-
-    private void register(String name, String username, String password, String address, String phone) {
-        class RegisterUser extends AsyncTask<String, Void, String> {
-            ProgressDialog loading;
-            RegisterUserClass ruc = new RegisterUserClass();
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                loading = ProgressDialog.show(Signup.this, "Please Wait", null, true, true);
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                loading.dismiss();
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            protected String doInBackground(String... params) {
-
-                HashMap<String, String> data = new HashMap<String, String>();
-                data.put("name", params[0]);
-                data.put("username", params[1]);
-                data.put("password", params[2]);
-                data.put("address", params[3]);
-                data.put("phone", params[4]);
-
-                String result = ruc.sendPostRequest(REGISTER_URL, data);
-
-                return result;
-            }
-        }
+        String method = "register";
+        RegisterUserClass ru = new RegisterUserClass(this);
+        //   String abc="method" + method +"username" + username +"pass"+password;
+        ru.execute(method, name1, username1,password1,address1,phone1);
     }
 
 

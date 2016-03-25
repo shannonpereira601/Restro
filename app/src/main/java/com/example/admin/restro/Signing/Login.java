@@ -40,6 +40,8 @@ public class Login extends AppCompatActivity {
     private Boolean check;
     private CallbackManager callbackManager;
     String emailtext;
+    EditText email, pass;
+    Boolean failed;
     //boolean check=true;
     private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
         @Override
@@ -90,8 +92,8 @@ public class Login extends AppCompatActivity {
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_friends"));
         loginButton.registerCallback(callbackManager, callback);
 
-        final EditText email = (EditText) findViewById(R.id.e1);
-        final EditText pass = (EditText) findViewById(R.id.e2);
+        email = (EditText) findViewById(R.id.e1);
+        pass = (EditText) findViewById(R.id.e2);
 
         Button button = (Button) findViewById(R.id.button1);
         button.setOnClickListener(new View.OnClickListener() {
@@ -117,10 +119,17 @@ public class Login extends AppCompatActivity {
                 }
 
                 if (isValidEmail(emailtext) && (password.length() != 0 && password.length() < 13)) {
-                    sendEmail();
-                    Intent intents = new Intent(Login.this, MainActivity.class);
-                    startActivity(intents);
-                    check();
+                   // sendEmail();
+                    login();
+                    if(!failed)
+                    {
+                        Toast.makeText(getBaseContext(),"Incorrect username or password.",Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Intent intents = new Intent(Login.this, MainActivity.class);
+                        startActivity(intents);
+                        check();
+                    }
                 }
 
 
@@ -151,6 +160,22 @@ public class Login extends AppCompatActivity {
         check = true;
         editor.putBoolean("check", check);
         editor.commit();
+    }
+
+    public boolean checktest() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyTest", Context.MODE_PRIVATE);
+        failed = sharedPreferences.getBoolean("test", false);
+        return failed;
+    }
+    public void login() {
+
+        final String username = email.getText().toString();
+        final String password = pass.getText().toString();
+        String method = "login";
+        RegisterUserClass ru = new RegisterUserClass(this);
+        //   String abc="method" + method +"username" + username +"pass"+password;
+        ru.execute(method, username, password);
+        checktest();
     }
 
     private boolean isValidEmail(String emailtext) {

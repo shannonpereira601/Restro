@@ -4,81 +4,163 @@ package com.example.admin.restro.Signing;
  * Created by PAREKH on 20-03-2016.
  */
 
-       // import org.apache.http.HttpException;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
-        import java.io.BufferedReader;
-        import java.io.BufferedWriter;
-        import java.io.InputStreamReader;
-        import java.io.OutputStream;
-        import java.io.OutputStreamWriter;
-        import java.io.UnsupportedEncodingException;
-        import java.net.HttpURLConnection;
-        import java.net.URL;
-        import java.net.URLEncoder;
-        import java.util.HashMap;
-        import java.util.Map;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 
-        import javax.net.ssl.HttpsURLConnection;
+public class RegisterUserClass extends AsyncTask<String, Void, String> {
+    Context ctx;
+    AlertDialog alertDialog;
+    Boolean failed;
 
-/**
- * Created by Belal on 8/6/2015.
- */
-public class RegisterUserClass {
+    public RegisterUserClass(Context ctx) {
 
-    public String sendPostRequest(String requestURL,
-                                  HashMap<String, String> postDataParams) {
-
-        URL url;
-        String response = "";
-        try {
-            url = new URL(requestURL);
-
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(15000);
-            conn.setConnectTimeout(15000);
-            conn.setRequestMethod("POST");
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-
-
-            OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(os, "UTF-8"));
-            writer.write(getPostDataString(postDataParams));
-
-            writer.flush();
-            writer.close();
-            os.close();
-            int responseCode=conn.getResponseCode();
-
-            if (responseCode == HttpsURLConnection.HTTP_OK) {
-                BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                response = br.readLine();
-            }
-            else {
-                response="Error Registering";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return response;
+        this.ctx = ctx;
     }
 
-    private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for(Map.Entry<String, String> entry : params.entrySet()){
-            if (first)
-                first = false;
-            else
-                result.append("&");
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        alertDialog = new AlertDialog.Builder(ctx).create();
+        alertDialog.setTitle(":ogin Information");
+    }
 
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+
+    @Override
+    public String doInBackground(String... params) {
+        String reg_url = "http://restro.esy.es/userdata.php";
+        String login_url = "http://restro.esy.es/kp.php";
+
+        String method = params[0];
+
+        if (method.equals("register")) {
+            String name = params[1];
+            String username = params[2];
+            String password = params[3];
+            String phone = params[4];
+            String address = params[5];
+            try {
+                URL url = new URL(reg_url);
+
+                HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+                httpConnection.setRequestMethod("POST");
+                httpConnection.setDoOutput(true);
+                OutputStream os = httpConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                String data = URLEncoder.encode("user", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&" +
+                        URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + "&" +
+                        URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8") + "&" +
+                        URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8") + "&" +
+                        URLEncoder.encode("address", "UTF-8") + "=" + URLEncoder.encode(address, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                os.close();
+                InputStream IS = httpConnection.getInputStream();
+                IS.close();
+                httpConnection.disconnect();
+                return "Registration success";
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        } else if (method.equals("login")) {
+            String username = params[1];
+            String password = params[2];
+            try {
+                URL url = new URL(login_url);
+                HttpURLConnection httpConnection = (HttpURLConnection)url.openConnection();
+                httpConnection.setRequestMethod("POST");
+                httpConnection.setDoOutput(true);
+                httpConnection.setDoInput(true);
+                OutputStream os = httpConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                String data = URLEncoder.encode("username", "UTF-8")+"="+URLEncoder.encode(username, "UTF-8") + "&" +
+                        URLEncoder.encode("password", "UTF-8")+"="+URLEncoder.encode(password, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                os.close();
+                InputStream IS = httpConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS, "iso-8859-1"));
+
+                String response = "";
+                String line = "";
+                if((line = bufferedReader.readLine())!=null)
+                {
+                    response+= line;
+                }
+
+                bufferedReader.close();
+                IS.close();
+                httpConnection.disconnect();
+                return response;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return null;
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+        super.onProgressUpdate(values);
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+        if (result.equals("Registration success")) {
+            Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+        }
+        else if(result.equals("Success"))
+        {
+            Log.d("Check","Success");
+            SharedPreferences sharedPreferences = ctx.getSharedPreferences("MyTest", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            failed = false;
+            editor.putBoolean("test", failed);
+            editor.commit();
         }
 
-        return result.toString();
+        else if(result.equals("Failed"))
+        {
+
+            SharedPreferences sharedPreferences = ctx.getSharedPreferences("MyTest", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            failed = true;
+            editor.putBoolean("test", failed);
+            editor.commit();
+            Log.d("Check", "Failure");
+        }
+        else {
+            Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+           // alertDialog.setMessage(result);
+            //alertDialog.show();
+        }
+
     }
+
 }
