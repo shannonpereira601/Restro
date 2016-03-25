@@ -120,15 +120,16 @@ public class Signup extends AppCompatActivity {
 
     private void registerUser() {
 
-        name1 = username.getText().toString().trim().toLowerCase();
-        username1 = email.getText().toString().trim().toLowerCase();
-        password1 = pass.getText().toString().trim().toLowerCase();
-        address1 = addressloc.getText().toString().trim().toLowerCase();
-        phone1 = phoneno.getText().toString().trim().toLowerCase();
+        name1 = username.getText().toString();
+        username1 = email.getText().toString();
+        password1 = pass.getText().toString();
+        address1 = addressloc.getText().toString();
+        phone1 = phoneno.getText().toString();
         String method = "register";
         RegisterUserClass ru = new RegisterUserClass(this);
         //   String abc="method" + method +"username" + username +"pass"+password;
-        ru.execute(method, name1, username1,password1,address1,phone1);
+        ru.execute(method, name1, username1, password1, address1, phone1);
+        sendEmail();
     }
 
 
@@ -155,6 +156,19 @@ public class Signup extends AppCompatActivity {
         check = true;
         editor.putBoolean("check", check);
         editor.commit();
+    }
+
+    private void sendEmail() {
+        //Getting content for email
+        String email = username1;
+        String subject = "RESTRO Registeration Notification";
+        String message = "Thanks for getting on board with Restro " +name1 +"!";
+
+        //Creating SendMail object
+        SendMail sm = new SendMail(this, email, subject, message);
+        //Executing sendmail to send email
+        sm.execute();
+
     }
 }
 

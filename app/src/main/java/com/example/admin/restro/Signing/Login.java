@@ -7,12 +7,20 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.admin.restro.MainActivity;
 import com.example.admin.restro.R;
 import com.facebook.AccessToken;
@@ -28,6 +36,8 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -42,6 +52,8 @@ public class Login extends AppCompatActivity {
     String emailtext;
     EditText email, pass;
     Boolean failed;
+    RequestQueue requestQueue;
+    String insertURL = "http://restro.esy.es/login.php";
     //boolean check=true;
     private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
         @Override
@@ -69,6 +81,7 @@ public class Login extends AppCompatActivity {
 
         }
 
+
         @Override
         public void onCancel() {
 
@@ -88,10 +101,60 @@ public class Login extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
         //textView = (TextView) findViewById(R.id.facebooktv);
+        ImageView restro = (ImageView) findViewById(R.id.restroimage);
+        final TextView textView = (TextView) findViewById(R.id.textView);
+        Button database = (Button) findViewById(R.id.database);
+
         LoginButton loginButton = (LoginButton) findViewById(R.id.facebookloginbutton);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_friends"));
         loginButton.registerCallback(callbackManager, callback);
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
 
+        database.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ImageView", "Clicked here");
+                Toast.makeText(getApplicationContext(),"Clicked",Toast.LENGTH_LONG).show();
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, insertURL, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray list = response.getJSONArray("List");
+                            for (int i = 0; i < list.length(); i++) {
+                                JSONObject data = list.getJSONObject(i);
+                                String jname = data.getString("Name");
+                                String jmail = data.getString("Email_id");
+                                String jpass = data.getString("Password");
+                                String jphone = data.getString("Phone");
+                                String jadd = data.getString("Address");
+
+                                textView.append(jname + " " + jmail + " " + jpass + " " + jphone + " " + jadd + "\n");
+                            }
+                            textView.append("===\n");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                requestQueue.add(jsonObjectRequest);
+            }
+        });
+
+        /*database.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ImageView", "Clicked here");
+
+            }
+        });*/
         email = (EditText) findViewById(R.id.e1);
         pass = (EditText) findViewById(R.id.e2);
 
@@ -119,17 +182,8 @@ public class Login extends AppCompatActivity {
                 }
 
                 if (isValidEmail(emailtext) && (password.length() != 0 && password.length() < 13)) {
-                   // sendEmail();
+                    //sendEmail();
                     login();
-                    if(!failed)
-                    {
-                        Toast.makeText(getBaseContext(),"Incorrect username or password.",Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Intent intents = new Intent(Login.this, MainActivity.class);
-                        startActivity(intents);
-                        check();
-                    }
                 }
 
 
@@ -167,6 +221,7 @@ public class Login extends AppCompatActivity {
         failed = sharedPreferences.getBoolean("test", false);
         return failed;
     }
+
     public void login() {
 
         final String username = email.getText().toString();
@@ -175,7 +230,7 @@ public class Login extends AppCompatActivity {
         RegisterUserClass ru = new RegisterUserClass(this);
         //   String abc="method" + method +"username" + username +"pass"+password;
         ru.execute(method, username, password);
-        checktest();
+        //  checktest();
     }
 
     private boolean isValidEmail(String emailtext) {
@@ -196,8 +251,8 @@ public class Login extends AppCompatActivity {
     private void sendEmail() {
         //Getting content for email
         String email = emailtext;
-        String subject = "Thank You-For using Restro";
-        String message = "THANKS!! ";
+        String subject = "Thank You For using Restro";
+        String message = "THANKS BUDDY!";
 
         //Creating SendMail object
         SendMail sm = new SendMail(this, email, subject, message);

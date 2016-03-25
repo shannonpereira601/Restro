@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     private Boolean check1 = false;
     private int isFabOpen;
     private FloatingActionButton fab, fab1, fab2, fab3;
-    private Animation fab_open,fab_open1, fab_open2,fab_close, fab_close1, fab_close2, rotate_backward, rotate_forward;
+    private Animation fab_open, fab_open1, fab_open2, fab_close, fab_close1, fab_close2, rotate_backward, rotate_forward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +66,14 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+        //View header1 = navigationView.getHeaderView(1);
         TextView name = (TextView) header.findViewById(R.id.username);
-        TextView email = (TextView) header.findViewById(R.id.usermail);
-        // String username = getIntent().getExtras().getString("name");
-        //String fbemail = getIntent().getExtras().getString("email");
-        //email.setText(fbemail);
-        //name.setText(username);
+        //TextView email = (TextView) header.findViewById(R.id.usermail);
+        String username = "Default";
+        String emailname = "default@gmail.com";
+        // emailname = getIntent().getExtras().getString("email");
+       // email.setText(emailname);
+        name.setText(username);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -98,17 +100,21 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isFabOpen%2==0) {
+                if (isFabOpen % 2 == 0) {
                     fab1.startAnimation(fab_open);
                     fab2.startAnimation(fab_open1);
                     fab3.startAnimation(fab_open2);
                     Log.d("Pahuchla", "open");
                     fab.startAnimation(rotate_forward);
-
-                }
-                else
-                {
-                   fab1.startAnimation(fab_close);
+                    fab1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent maps = new Intent(MainActivity.this, MapsActivity.class);
+                            startActivity(maps);
+                        }
+                    });
+                } else {
+                    fab1.startAnimation(fab_close);
                     fab2.startAnimation(fab_close1);
                     fab3.startAnimation(fab_close2);
                     fab.startAnimation(rotate_backward);
@@ -123,8 +129,9 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-
     }
+
+
 
 
     public boolean checkLogin() {
@@ -155,7 +162,8 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            // super.onBackPressed();
+            return;
         }
     }
 

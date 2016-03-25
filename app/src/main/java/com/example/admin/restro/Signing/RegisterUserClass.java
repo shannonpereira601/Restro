@@ -6,10 +6,13 @@ package com.example.admin.restro.Signing;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.admin.restro.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,8 +29,7 @@ import java.net.URLEncoder;
 public class RegisterUserClass extends AsyncTask<String, Void, String> {
     Context ctx;
     AlertDialog alertDialog;
-    Boolean failed;
-
+    private Boolean check;
     public RegisterUserClass(Context ctx) {
 
         this.ctx = ctx;
@@ -109,7 +111,6 @@ public class RegisterUserClass extends AsyncTask<String, Void, String> {
                 {
                     response+= line;
                 }
-
                 bufferedReader.close();
                 IS.close();
                 httpConnection.disconnect();
@@ -137,22 +138,20 @@ public class RegisterUserClass extends AsyncTask<String, Void, String> {
         }
         else if(result.equals("Success"))
         {
+            Toast.makeText(ctx,"Successfully Logged In.",Toast.LENGTH_LONG).show();
             Log.d("Check","Success");
-            SharedPreferences sharedPreferences = ctx.getSharedPreferences("MyTest", Context.MODE_PRIVATE);
+            Intent intents = new Intent(ctx, MainActivity.class);
+            ctx.startActivity(intents);
+            SharedPreferences sharedPreferences = ctx.getSharedPreferences("MyData", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            failed = false;
-            editor.putBoolean("test", failed);
+            check = true;
+            editor.putBoolean("check", check);
             editor.commit();
         }
 
         else if(result.equals("Failed"))
         {
-
-            SharedPreferences sharedPreferences = ctx.getSharedPreferences("MyTest", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            failed = true;
-            editor.putBoolean("test", failed);
-            editor.commit();
+            Toast.makeText(ctx,"Incorrect username or password.",Toast.LENGTH_LONG).show();
             Log.d("Check", "Failure");
         }
         else {
