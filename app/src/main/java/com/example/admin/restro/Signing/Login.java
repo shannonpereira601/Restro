@@ -3,6 +3,9 @@ package com.example.admin.restro.Signing;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +48,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -107,14 +112,22 @@ public class Login extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
         //textView = (TextView) findViewById(R.id.facebooktv);
-        ImageView restro = (ImageView) findViewById(R.id.restroimage);
+        /*ImageView iv1 = (ImageView) findViewById(R.id.restroimage);
+        iv1.buildDrawingCache();
+        Bitmap bitmap = iv1.getDrawingCache();
 
-        Button database = (Button) findViewById(R.id.database);
+        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+        byte[] image=stream.toByteArray();
+        String img_str = Base64.encodeToString(image, 0);*/
+
+
+//        Button database = (Button) findViewById(R.id.database);
 
         LoginButton loginButton = (LoginButton) findViewById(R.id.facebookloginbutton);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_friends"));
         loginButton.registerCallback(callbackManager, callback);
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
+    /*    requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         database.setOnClickListener(new View.OnClickListener() {
             @Override

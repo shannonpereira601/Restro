@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
     private List<Data> rvadapter;
 
     public RVAdapter(List<Data> List) {
+
         this.rvadapter = List;
     }
 
@@ -39,6 +41,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
         ViewHolder.vphoto.setImageResource(hi.hotelphoto);
         ViewHolder.vhotel.setText(hi.hotelname);
         ViewHolder.vlocation.setText(hi.location);
+        Log.d("KP","Inside Bind");
     }
 
     @Override
@@ -46,7 +49,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.cardview, viewGroup, false);
-
+        Log.d("KP","Inside Create");
         return new MyViewHolder(itemView);
     }
 
@@ -71,7 +74,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
             final Intent intent;
             context = v.getContext();
 
-            Toast.makeText(context, "Clicked here " + getAdapterPosition(), LENGTH_SHORT).show();
+           // Toast.makeText(context, "Clicked here " + getAdapterPosition(), LENGTH_SHORT).show();
             Bundle bundle = new Bundle();
             bundle.putInt("value", getAdapterPosition());
             intent = new Intent(context, Hotel.class);

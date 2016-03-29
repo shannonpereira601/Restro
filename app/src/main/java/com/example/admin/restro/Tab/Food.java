@@ -38,11 +38,11 @@ public class Food extends Fragment {
         Integer[] newarray = new Integer[oldarray.length];
         */
         int length = 10;
-        Integer[] fkit = new Integer[length];
+        Integer[] green = new Integer[length];
 
         for(int i=0;i<length;i++)
         {
-            fkit[i] = R.drawable.green;
+            green[i] = R.drawable.green;
         }
 
         gv.setAdapter(new FoodAdapter(getContext(),images));

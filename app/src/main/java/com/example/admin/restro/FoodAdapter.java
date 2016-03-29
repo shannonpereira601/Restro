@@ -58,13 +58,6 @@ public class FoodAdapter extends BaseAdapter {
             // if it's not recycled, initialize some attributes
             food.setImageResource(something[position]);
             food.setPadding(3, 3, 3, 3);
-            //int h = mContext.getResources().getDisplayMetrics().densityDpi;
-            // holder.image.setLayoutParams(new LayoutParams(h-50,h-50));
-            // holder.image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            // holder.image.setScaleType(ImageView.ScaleType.FIT_XY);
-            // holder.image.setPadding(20, 20, 20, 20);
-            // convertView.setLayoutParams(new GridView.LayoutParams(Utils
-            // .getLayoutParameter(), Utils.getLayoutParameter()+50));
 
             food = new ImageView(mContext);
         } else {

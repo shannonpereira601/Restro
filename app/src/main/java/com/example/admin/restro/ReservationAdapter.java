@@ -43,19 +43,6 @@ public class ReservationAdapter extends BaseAdapter {
     // create a new ImageView for each item referenced by the Adapter
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-       /* ImageView imageView;
-        if (convertView == null) {
-            // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
-        } else {
-            imageView = (ImageView) convertView;
-        }
-
-        imageView.setImageResource(imageid[position]);
-        return imageView;*/
         final ViewHolder holder;
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) mContext
@@ -91,31 +78,6 @@ public class ReservationAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
 
         }
-        /*
-        holder.image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(imageid[position]==R.drawable.green)
-                {
-                    holder.image.setImageResource(R.drawable.red);
-                    holder.text1.setText("Booked");
-                }
-                if(imageid[position]==R.drawable.red)
-                {
-                    holder.image.setImageResource(R.drawable.green);
-                    holder.text1.setText("Capacity: " + result[position]);
-                   // imageid[position]=R.drawable.green;
-                }*/
-
-               /* if (imagecount % 2 == 0) {
-                    holder.image.setImageResource(R.drawable.red);
-                    holder.text1.setText("Booked");
-                } else {
-                    holder.image.setImageResource(R.drawable.green);
-                    holder.text1.setText(result[position]);
-                }
-            }
-        });*/
 
         return convertView;
 

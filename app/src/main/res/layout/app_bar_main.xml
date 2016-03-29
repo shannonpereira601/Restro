@@ -36,7 +36,7 @@
         app:backgroundTint="@color/colorFAB2"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        android:src="@drawable/star" />
+        android:src="@drawable/fabrate" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab1"
@@ -47,7 +47,7 @@
         app:elevation="6dp"
         app:backgroundTint="@color/colorFAB1"
         app:pressedTranslationZ="12dp"
-        android:src="@drawable/map" />
+        android:src="@drawable/fabmap" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab3"
@@ -58,7 +58,7 @@
         app:elevation="6dp"
         app:backgroundTint="@color/colorFAB3"
         app:pressedTranslationZ="12dp"
-        android:src="@drawable/star" />
+        android:src="@drawable/fabgame" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

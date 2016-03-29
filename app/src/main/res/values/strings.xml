@@ -10,7 +10,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_feedback">Feedback</string>
     <string name="email">restroapp@gmail.com</string>
-    <string name="title_activity_hotel">Hotel</string>
+    <string name="title_activity_hotel">Hotel Info</string>
     <string-array name="tabs">
         <item>Details</item>
         <item>Images</item>

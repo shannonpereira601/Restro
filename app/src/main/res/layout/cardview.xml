@@ -5,13 +5,18 @@
     android:id="@+id/item_layout_container"
     >
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="162dp"
+        android:elevation="3dp"/>
+
     <android.support.v7.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="3dp"
+        app:cardElevation="0dp"
         android:layout_centerHorizontal="true"
         app:cardBackgroundColor="@color/colorAccent"
         >

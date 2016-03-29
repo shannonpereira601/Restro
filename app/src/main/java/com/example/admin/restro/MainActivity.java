@@ -38,6 +38,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.admin.restro.Signing.Login;
+import com.example.admin.restro.Tab.BackgroundTask;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity
     private int isFabOpen;
     private FloatingActionButton fab, fab1, fab2, fab3;
     private Animation fab_open, fab_open1, fab_open2, fab_close, fab_close1, fab_close2, rotate_backward, rotate_forward;
+    ImageView cloud,restro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,17 @@ public class MainActivity extends AppCompatActivity
         }
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
+        cloud = (ImageView)findViewById(R.id.cloud);
+
+        if(haveNetworkConnection()) {
+            cloud.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            cloud.setVisibility(View.VISIBLE);
+        }
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
@@ -72,18 +85,22 @@ public class MainActivity extends AppCompatActivity
         String username = "Default";
         String emailname = "default@gmail.com";
         // emailname = getIntent().getExtras().getString("email");
-       // email.setText(emailname);
+        // email.setText(emailname);
         name.setText(username);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        BackgroundTask backgroundTask = new BackgroundTask(MainActivity.this);
+        backgroundTask.execute();
+/*
         RecyclerView reclist = (RecyclerView) findViewById(R.id.rv);
         reclist.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         reclist.setLayoutManager(llm);
         RVAdapter adapter = new RVAdapter(getdata());
-        reclist.setAdapter(adapter);
+        reclist.setAdapter(adapter);*/
 
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
         fab2 = (FloatingActionButton) findViewById(R.id.fab2);
@@ -106,13 +123,6 @@ public class MainActivity extends AppCompatActivity
                     fab3.startAnimation(fab_open2);
                     Log.d("Pahuchla", "open");
                     fab.startAnimation(rotate_forward);
-                    fab1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent maps = new Intent(MainActivity.this, MapsActivity.class);
-                            startActivity(maps);
-                        }
-                    });
                 } else {
                     fab1.startAnimation(fab_close);
                     fab2.startAnimation(fab_close1);
@@ -120,6 +130,20 @@ public class MainActivity extends AppCompatActivity
                     fab.startAnimation(rotate_backward);
                 }
                 isFabOpen++;
+            }
+        });
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent maps = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(maps);
+            }
+        });
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent xo = new Intent(MainActivity.this,XO.class);
+                startActivity(xo);
             }
         });
 
@@ -132,8 +156,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
     public boolean checkLogin() {
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         check1 = false;
@@ -141,7 +163,7 @@ public class MainActivity extends AppCompatActivity
         return check1;
     }
 
-    public List<Data> getdata() {
+  /*  public List<Data> getdata() {
         List<Data> hotels = new ArrayList<>();
         int[] Photo = {R.drawable.roll, R.drawable.fish, R.drawable.chinese, R.drawable.indian, R.drawable.fish, R.drawable.roll, R.drawable.roll, R.drawable.fish, R.drawable.chinese, R.drawable.indian, R.drawable.fish, R.drawable.roll};
         String[] Hotel = getResources().getStringArray(R.array.Hotels);
@@ -154,7 +176,7 @@ public class MainActivity extends AppCompatActivity
             hotels.add(current);
         }
         return hotels;
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
