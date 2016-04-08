@@ -11,6 +11,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +41,7 @@ import java.util.List;
 /**
  * Created by admin on 26/03/2016.
  */
-public class BackgroundTask extends AsyncTask<Void, Data, Void> {
+public class BackgroundTask extends AsyncTask<Void, Data, Void>{
 
     Context context;
     Activity activity;
@@ -47,6 +51,10 @@ public class BackgroundTask extends AsyncTask<Void, Data, Void> {
     String json_string;
     List<Data> hotelbt = new ArrayList<>();
     MaterialDialog dialog;
+    Spinner spinner;
+    List<String> sploc = new ArrayList<String>();
+    String Item = "null";
+    String Itemsp[];
 
 
     public BackgroundTask(Context ctx) {
@@ -65,6 +73,7 @@ public class BackgroundTask extends AsyncTask<Void, Data, Void> {
         reclist.setLayoutManager(llm);
         adapter = new RVAdapter(hotelbt);
         reclist.setAdapter(adapter);
+        spinner = (Spinner) activity.findViewById(R.id.spinner);
        /* progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Please Wait Bro...");
         progressDialog.setMessage("List is loading bro...");
@@ -82,8 +91,8 @@ public class BackgroundTask extends AsyncTask<Void, Data, Void> {
         try {
             URL url = new URL(jsonstring);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = httpURLConnection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            InputStream inputStream1 = httpURLConnection.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream1));
             StringBuilder stringBuilder = new StringBuilder();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -95,26 +104,40 @@ public class BackgroundTask extends AsyncTask<Void, Data, Void> {
             int[] Photo = {R.drawable.roll, R.drawable.fish, R.drawable.chinese, R.drawable.indian, R.drawable.fish, R.drawable.roll, R.drawable.roll, R.drawable.fish, R.drawable.chinese, R.drawable.indian, R.drawable.fish, R.drawable.roll};
             String[] Hotel = activity.getResources().getStringArray(R.array.Hotels);
             String[] Location = activity.getResources().getStringArray(R.array.Location);
+            String[] capacity;
 
             JSONObject jsonObject = new JSONObject(json_string);
             JSONArray jsonArray = jsonObject.getJSONArray("Hotel");
             StringBuilder sb = new StringBuilder();
             StringBuilder sb1 = new StringBuilder();
+            StringBuilder sb2 = new StringBuilder();
+            StringBuilder sb3 = new StringBuilder();
             int count = 0;
-            while (count < jsonArray.length()) {
-                JSONObject JO = jsonArray.getJSONObject(count);
-                Data data1 = new Data(Photo[count], JO.getString("res_name"), JO.getString("address"));
-                sb.append(JO.getString("address")).append(",");
-                sb1.append(JO.getString("res_name")).append(",");
-                publishProgress(data1);
-                count++;
-                Thread.sleep(200);
+            if(Item.equals("null")) {
+                while (count < jsonArray.length()) {
+                    JSONObject JO = jsonArray.getJSONObject(count);
+                    Data data1 = new Data(Photo[count], JO.getString("res_name"), JO.getString("address"));
+                    sb.append(JO.getString("address")).append(",");
+                    sb1.append(JO.getString("res_name")).append(",");
+                    sb2.append(JO.getString("No Of Tables")).append(",");
+                    sb3.append(JO.getString("Res_id")).append(",");
+                    sploc.add(JO.getString("address"));
+                    publishProgress(data1);
+                    count++;
+                    Thread.sleep(200);
+                }
             }
+            else
+            {
 
+            }
+            Log.d("Capacity", sb2.toString());
             SharedPreferences sharedPreferences = activity.getSharedPreferences("HotelData", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("Location",sb.toString());
-            editor.putString("Restaurant",sb1.toString());
+            editor.putString("Location", sb.toString());
+            editor.putString("Restaurant", sb1.toString());
+            editor.putString("Tables", sb2.toString());
+            editor.putString("TableID", sb3.toString());
             editor.commit();
 
         } catch (MalformedURLException e) {
@@ -138,8 +161,14 @@ public class BackgroundTask extends AsyncTask<Void, Data, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         //progressDialog.dismiss();
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, sploc);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
         dialog.dismiss();
     }
+
+
+
 
    /* public List<Data> getdata() {
         List<Data> hotels = new ArrayList<>();

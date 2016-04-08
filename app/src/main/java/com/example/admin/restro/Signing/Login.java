@@ -236,9 +236,12 @@ public class Login extends AppCompatActivity {
         editor.commit();
     }
 
-    public boolean checktest() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyTest", Context.MODE_PRIVATE);
-        failed = sharedPreferences.getBoolean("test", false);
+    public boolean passdetails() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Profile", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String email = emailtext;
+        editor.putString("email",email);
+        editor.commit();
         return failed;
     }
 
@@ -250,6 +253,7 @@ public class Login extends AppCompatActivity {
         RegisterUserClass ru = new RegisterUserClass(this);
         //   String abc="method" + method +"username" + username +"pass"+password;
         ru.execute(method, username, password);
+    //    passdetails();
         //  checktest();
     }
 

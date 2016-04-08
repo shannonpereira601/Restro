@@ -10,6 +10,11 @@
     tools:context="com.example.admin.restro.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        ></Spinner>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

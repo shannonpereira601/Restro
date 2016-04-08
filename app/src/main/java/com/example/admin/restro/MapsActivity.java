@@ -60,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     String l2;
     LatLng user;
     Location mCurrentLocation;
-    private HashMap<String, Marker> markers = new HashMap<String,Marker>();
+    private HashMap<String, Marker> markers = new HashMap<String, Marker>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,16 +114,20 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
         user = new LatLng(userlatitudeNetwork, userlongitudeNetwork);
         LatLng fivespice = new LatLng(19.1767155, 72.8381069);
-        LatLng poptates = new LatLng(19.2383738, 72.8311794);
-        LatLng fusion = new LatLng(19.1079686, 72.8812817);
+        LatLng kasbah = new LatLng(19.2383738, 72.8311794);
+        LatLng flag = new LatLng(19.1079686, 72.8812817);
+        LatLng spiceclub = new LatLng(19.1079686, 72.8812817);
+        LatLng breeze = new LatLng(19.1079686, 72.8812817);
+        LatLng bademiya = new LatLng(19.1079686, 72.8812817);
+        LatLng nfeet = new LatLng(19.1079686, 72.8812817);
 
-        Marker m1 = mMap.addMarker(new MarkerOptions().position(fusion).title("Global Fusion"));
-        //mMap.addMarker(new MarkerOptions().position(chhotus).icon(BitmapDescriptorFactory.fromResource(R.drawable.profile)).title("Chhotus"));
-        markers.put("Fusion",m1);
-        Marker m2 =mMap.addMarker(new MarkerOptions().position(poptates).title("PopTates"));
-        markers.put("PopTates",m2);
-        Marker m3 =mMap.addMarker(new MarkerOptions().position(fivespice).title("5Spice"));
-        markers.put("5Spice",m3);
+        //  Marker m1 = mMap.addMarker(new MarkerOptions().position(fusion).title("Global Fusion"));
+        Marker m1 = mMap.addMarker(new MarkerOptions().position(fivespice).icon(BitmapDescriptorFactory.fromResource(R.drawable.mapicon)).title("Global Fusion"));
+        markers.put("Fusion", m1);
+        Marker m2 = mMap.addMarker(new MarkerOptions().position(nfeet).title("PopTates"));
+        markers.put("PopTates", m2);
+        Marker m3 = mMap.addMarker(new MarkerOptions().position(fivespice).title("5Spice"));
+        markers.put("5Spice", m3);
         Toast.makeText(this, userlatitudeNetwork + " " + userlongitudeNetwork, Toast.LENGTH_SHORT).show();
     }
 
@@ -266,7 +270,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
                 @Override
                 public void run() {
                     latlongValueNetwork.setText(userlatitudeNetwork + " " + userlongitudeNetwork);
-                    Toast.makeText(getBaseContext(), "Network Provider update " + userlongitudeNetwork +" "+ userlatitudeNetwork, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Network Provider update " + userlongitudeNetwork + " " + userlatitudeNetwork, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -325,18 +329,19 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
         initCamera(mCurrentLocation);
     }
-    private void initCamera( Location location ) {
+
+    private void initCamera(Location location) {
         CameraPosition position = CameraPosition.builder()
-                .target( new LatLng( location.getLatitude(),
-                        location.getLongitude() ) )
-                .zoom( 16f )
-                .bearing( 0.0f )
-                .tilt( 0.0f )
+                .target(new LatLng(location.getLatitude(),
+                        location.getLongitude()))
+                .zoom(16f)
+                .bearing(0.0f)
+                .tilt(0.0f)
                 .build();
 
         mMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(position), null);
-        mMap.setTrafficEnabled(true);
+        //mMap.setTrafficEnabled(true);
         //mMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
@@ -357,37 +362,39 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
     @Override
     public void onMapClick(LatLng latLng) {
-        MarkerOptions options = new MarkerOptions().position( latLng );
-        options.title( getAddressFromLatLng( latLng ) );
-        Log.d("Clicked","You Clicked on the map");
-        options.icon( BitmapDescriptorFactory.defaultMarker() );
+        MarkerOptions options = new MarkerOptions().position(latLng);
+        options.title(getAddressFromLatLng(latLng));
+        Log.d("Clicked", "You Clicked on the map");
+        options.icon(BitmapDescriptorFactory.defaultMarker());
         mMap.addMarker(options);
     }
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        MarkerOptions options = new MarkerOptions().position( latLng );
-        options.title( getAddressFromLatLng( latLng ) );
+        MarkerOptions options = new MarkerOptions().position(latLng);
+        options.title(getAddressFromLatLng(latLng));
         Log.d("Clicked", "You Cliiiiicked on the map");
-        options.icon( BitmapDescriptorFactory.fromBitmap(
+        options.icon(BitmapDescriptorFactory.fromBitmap(
                 BitmapFactory.decodeResource(getResources(),
-                        R.mipmap.ic_launcher) ) );
+                        R.mipmap.ic_launcher)));
 
         mMap.addMarker(options);
 
     }
-    private String getAddressFromLatLng( LatLng latLng ) {
-        Geocoder geocoder = new Geocoder( getBaseContext() );
+
+    private String getAddressFromLatLng(LatLng latLng) {
+        Geocoder geocoder = new Geocoder(getBaseContext());
         String address = "";
         try {
             address = geocoder
-                    .getFromLocation( latLng.latitude, latLng.longitude, 1 )
-                    .get( 0 ).getAddressLine( 0 );
-        } catch (IOException e ) {
+                    .getFromLocation(latLng.latitude, latLng.longitude, 1)
+                    .get(0).getAddressLine(0);
+        } catch (IOException e) {
         }
 
         return address;
     }
+
     @Override
     public boolean onMarkerClick(Marker marker) {
         marker.showInfoWindow();

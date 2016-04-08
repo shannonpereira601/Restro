@@ -64,13 +64,7 @@ public class ReservationAdapter extends BaseAdapter {
             {
                 holder.text1.setText("Booked");
             }
-            //int h = mContext.getResources().getDisplayMetrics().densityDpi;
-            // holder.image.setLayoutParams(new LayoutParams(h-50,h-50));
-            // holder.image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            // holder.image.setScaleType(ImageView.ScaleType.FIT_XY);
-            // holder.image.setPadding(20, 20, 20, 20);
-            // convertView.setLayoutParams(new GridView.LayoutParams(Utils
-            // .getLayoutParameter(), Utils.getLayoutParameter()+50));
+
 
             convertView.setTag(holder);
         } else {
