@@ -14,6 +14,7 @@ public class XO extends AppCompatActivity {
         GridView gv = (GridView)findViewById(R.id.gridView);
         int length = 10;
         Integer[] green = new Integer[length];
+        /*shifted*/
 
         Integer[] images = {R.drawable.plus,R.drawable.plus,R.drawable.plus,R.drawable.plus,R.drawable.plus,R.drawable.plus,R.drawable.plus,R.drawable.plus,R.drawable.plus};
         gv.setAdapter(new FoodAdapter(XO.this, images));
