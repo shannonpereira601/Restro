@@ -45,6 +45,22 @@
         android:textSize="15sp"
         android:textColor="#fff"
         android:layout_below="@+id/ll1"/>
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/corner"
+        android:text="Wish to cancel a table?"
+        android:padding="10dp"
+        android:textSize="15sp"
+        android:textColor="#fff"
+        android:layout_below="@+id/button"/>
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="40dp"

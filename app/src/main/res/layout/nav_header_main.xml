@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:id="@+id/username"
         android:layout_height="wrap_content"
-        android:text="S.Pereira"
+        android:text="S.Parekh"
         android:textSize="20sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -23,7 +23,7 @@
         android:id="@+id/usermail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sp601@gmail.com"
+        android:text="@+id/username"
         />
 
 </LinearLayout>

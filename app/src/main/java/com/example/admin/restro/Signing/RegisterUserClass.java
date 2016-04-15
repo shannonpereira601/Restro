@@ -39,7 +39,7 @@ public class RegisterUserClass extends AsyncTask<String, Void, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         alertDialog = new AlertDialog.Builder(ctx).create();
-        alertDialog.setTitle(":ogin Information");
+        alertDialog.setTitle("Login Information");
     }
 
 

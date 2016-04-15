@@ -1,9 +1,6 @@
 package com.example.admin.restro;
 
-import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
@@ -14,23 +11,18 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,18 +34,13 @@ import com.example.admin.restro.Tab.BackgroundTask;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Boolean check1 = false;
     private int isFabOpen;
     private FloatingActionButton fab, fab1, fab2, fab3;
     private Animation fab_open, fab_open1, fab_open2, fab_close, fab_close1, fab_close2, rotate_backward, rotate_forward;
-    ImageView cloud,restro;
+    ImageView cloud, restro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +53,11 @@ public class MainActivity extends AppCompatActivity
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
-        cloud = (ImageView)findViewById(R.id.cloud);
+        cloud = (ImageView) findViewById(R.id.cloud);
 
-        if(haveNetworkConnection()) {
+        if (haveNetworkConnection()) {
             cloud.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
+        } else {
             cloud.setVisibility(View.VISIBLE);
         }
 
@@ -142,7 +127,7 @@ public class MainActivity extends AppCompatActivity
         fab3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent xo = new Intent(MainActivity.this,XO.class);
+                Intent xo = new Intent(MainActivity.this, XO.class);
                 startActivity(xo);
             }
         });
@@ -304,7 +289,6 @@ public class MainActivity extends AppCompatActivity
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
-
 
 }
 

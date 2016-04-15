@@ -3,9 +3,7 @@ package com.example.admin.restro.Tab;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,13 +18,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.admin.restro.ReservationAdapter;
 import com.example.admin.restro.R;
+import com.example.admin.restro.ReservationAdapter;
 import com.example.admin.restro.Signing.SendMail;
 
 import org.json.JSONArray;
@@ -46,6 +43,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Created by admin on 13/03/2016.
@@ -92,8 +91,6 @@ public class Reservation extends Fragment {
                 getHotData();
                 final String ids = Getids[x];
                 hotelBgTask.execute(ids);
-
-
                 /*
                 getTabData();
                 table = new Integer[Capacities.length];
@@ -105,7 +102,7 @@ public class Reservation extends Fragment {
                         table[i] = R.drawable.red;
                     }
                 }
-*/
+            */
 
                 gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v,
@@ -158,6 +155,7 @@ public class Reservation extends Fragment {
 
             String reservation = params[0];
             String resid = params[1];
+
 
             String url = "http://restro.esy.es/updatetable.php";
             Log.d("new", reservation);
@@ -359,13 +357,19 @@ public class Reservation extends Fragment {
     }
 
     private void sendEmail() {
+
+
+
+
+        SharedPreferences sharedPreference = getContext().getSharedPreferences("Profile", Context.MODE_PRIVATE);
+        //String username = sharedPreference.getString("email","default");
+
         //Getting content for email
-       // SharedPreferences sharedPreferences = getContext().getSharedPreferences("Profile", Context.MODE_PRIVATE);
-     //   String username = sharedPreferences.getString("email","default");
-        String email = "shannonpereira601@gmail.com";
-      //  getTabData();
+        String email = sharedPreference.getString("email","default");
+        //  getTabData();
         String subject = "RESTRO Table Booking Notification";
-        String message = "Your table has been successfully booked.";
+        String message = "Your table has been booked successfully on " + DateFormat.getDateTimeInstance().format(new Date())  ;
+
 
         //Creating SendMail object
         SendMail sm = new SendMail(getContext(), email, subject, message);
@@ -376,6 +380,8 @@ public class Reservation extends Fragment {
 
 
 
-
 }
+
+
+
 

@@ -7,31 +7,20 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.admin.restro.Tab.BackgroundTask;
-import com.example.admin.restro.Tab.Tab1;
-import com.example.admin.restro.Tab.Reservation;
+import com.example.admin.restro.Tab.Cancellation;
 import com.example.admin.restro.Tab.Food;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.admin.restro.Tab.Reservation;
+import com.example.admin.restro.Tab.Tab1;
 
 public class Hotel extends AppCompatActivity {
 
     private ViewPager mPager;
     private SlidingTabLayout mTabs;
     Reservation tab3;
+Cancellation tab4;
+
     RequestQueue requestQueue;
     private String URL = "http://restro.esy.es/hotelinfo.php";
 
@@ -78,13 +67,19 @@ public class Hotel extends AppCompatActivity {
             {
                 Food tab2 = new Food();
                 return tab2;
-            } else {
+            }
+            else {
                 Bundle bundle = getIntent().getExtras();
                 int x = bundle.getInt("value");
+
                 tab3 = Reservation.getInstance(x);
-               // tab3.setRetainInstance(true);
-                return tab3;
+                tab4 = Cancellation.getInstance(x);
+
+                // tab3.setRetainInstance(true);
+                return (tab3);
+
             }
+
         }
 
         @Override
